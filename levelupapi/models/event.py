@@ -9,3 +9,6 @@ class Event(models.Model):
     time = models.IntegerField()
     organizer = models.ForeignKey("Gamer", on_delete=models.CASCADE)
     attending = models.ManyToManyField("Gamer", through="EventGamer", related_name="attending_events")
+
+    def __str__(self):
+        return self.description
