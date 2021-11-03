@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from levelupapi.models import Gamer
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([AllowAny]) #now anyone from localhost can request register
 def login_user(request):
     '''Handles the authentication of a gamer
 
@@ -28,7 +28,7 @@ def login_user(request):
         data = {
             'valid': True,
             'token': token.key
-        }
+        } #data is a dictionary; passing token; using variable from line 27
         return Response(data)
     else:
         # Bad login details were provided. So we can't log the user in.
@@ -48,7 +48,7 @@ def register_user(request):
     # on Django's built-in User model
     new_user = User.objects.create_user(
         username=request.data['username'],
-        email=request.data['email'],
+        # email=request.data['email'],
         password=request.data['password'],
         first_name=request.data['first_name'],
         last_name=request.data['last_name']
