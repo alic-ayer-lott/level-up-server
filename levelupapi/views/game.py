@@ -20,7 +20,7 @@ class GameView(ViewSet):
         """
 
         # Uses the token passed in the `Authorization` header
-        gamer = Gamer.objects.get(user=request.auth.user)
+        gamer = Gamer.objects.get(user=request.auth.user) #user = the user that is currently logged in
 
         # Use the Django ORM to get the record from the database
         # whose `id` is what the client passed as the
@@ -34,6 +34,7 @@ class GameView(ViewSet):
             # Create a new Python instance of the Game class
             # and set its properties from what was sent in the
             # body of the request from the client.
+            # request data is whatever body is coming in from postman or client side
             game = Game.objects.create(
                 title=request.data["title"],
                 maker=request.data["maker"],
@@ -43,6 +44,7 @@ class GameView(ViewSet):
                 game_type=game_type
             )
             serializer = GameSerializer(game, context={'request': request})
+            # telling the serializer to get information from request
             return Response(serializer.data)
 
         # If anything went wrong, catch the exception and

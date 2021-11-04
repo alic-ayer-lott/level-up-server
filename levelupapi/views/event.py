@@ -32,7 +32,7 @@ class EventView(ViewSet):
     
 
     def create(self, request):
-        gamer=Gamer.objects.get(user=request.auth.user)
+        organizer=Gamer.objects.get(user=request.auth.user)
 
         try:
             event = Event.objects.create(
@@ -40,7 +40,7 @@ class EventView(ViewSet):
                 description=request.data["description"],
                 date=request.data["date"],
                 time=request.data["time"],
-                organizer=Gamer.objects.get(user=request.auth.user),
+                organizer=organizer,
                 attending=request.data["attending"]
             )
             serializer = EventSerializer(event, context={'request': request})
@@ -65,7 +65,7 @@ class EventView(ViewSet):
     
     def update(self, request, pk=None):
 
-        gamer = Gamer.objects.get(user=request.auth.user)
+        organizer = Gamer.objects.get(user=request.auth.user)
 
 
         event = Event.objects.get(pk=pk)
@@ -73,7 +73,7 @@ class EventView(ViewSet):
         event.description=request.data["description"],
         event.date=request.data["date"],
         event.time=request.data["time"],
-        event.organizer=Gamer.objects.get(user=request.auth.user),
+        event.organizer=organizer,
         event.attending=request.data["attending"]
 
         event.save()
