@@ -5,8 +5,8 @@ class Event(models.Model):
 
     game = models.ForeignKey("Game", on_delete=models.CASCADE)
     description = models.CharField(max_length=50)
-    date = models.CharField(max_length=50)
-    time = models.IntegerField()
+    date = models.DateField()
+    time = models.TimeField()
     organizer = models.ForeignKey("Gamer", on_delete=models.CASCADE)
     attending = models.ManyToManyField("Gamer", through="EventGamer", related_name="attending_events")
 

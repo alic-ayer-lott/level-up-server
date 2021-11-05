@@ -26,22 +26,23 @@ class EventView(ViewSet):
         try:
             event = Event.objects.get(pk=pk)
             serializer = EventSerializer (event, context={'request': request})
-            return Reponse(serializer.data)
+            return Response(serializer.data)
         except Exception as ex:
             return HttpResponseServerError(ex)
     
 
     def create(self, request):
         organizer=Gamer.objects.get(user=request.auth.user)
+        game=Game.objects.get(pk=request.data["gameId"])
 
         try:
             event = Event.objects.create(
-                game=Game.objects.get(pk=request.data["gameId"]),
+                game=game,
                 description=request.data["description"],
                 date=request.data["date"],
                 time=request.data["time"],
                 organizer=organizer,
-                attending=request.data["attending"]
+                # attending=request.data["attending"]
             )
             serializer = EventSerializer(event, context={'request': request})
             return Response(serializer.data)
@@ -74,7 +75,7 @@ class EventView(ViewSet):
         event.date=request.data["date"],
         event.time=request.data["time"],
         event.organizer=organizer,
-        event.attending=request.data["attending"]
+        # event.attending=request.data["attending"]
 
         event.save()
 
@@ -101,5 +102,5 @@ class EventSerializer(serializers.ModelSerializer):
     game = EventGameSerializer()
     class Meta:
         model = Event
-        fields = ('id', 'game', 'description', 'date', 'time', 'organizer', 'attending')
+        fields = ('id', 'game', 'description', 'date', 'time', 'organizer')
         depth = 1
