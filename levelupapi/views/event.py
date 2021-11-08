@@ -74,7 +74,7 @@ class EventView(ViewSet):
             try:
                 # Using the attendees field on the event makes it simple to add a gamer to the event
                 # .add(gamer) will insert into the join table a new row the gamer_id and the event_id
-                event.attendees.add(gamer)
+                event.attending.add(gamer)
                 return Response({}, status=status.HTTP_201_CREATED)
             except Exception as ex:
                 return Response({'message': ex.args[0]})
@@ -115,7 +115,7 @@ class EventView(ViewSet):
         event.date=request.data["date"],
         event.time=request.data["time"],
         event.organizer=organizer,
-        # event.attending=request.data["attending"]
+        event.attending=request.data["attending"]
 
         event.save()
 
