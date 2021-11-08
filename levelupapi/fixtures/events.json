@@ -8,7 +8,7 @@
             "date": "2021-11-05",
             "time": "16:00",
             "organizer": 1,
-            "attending": [1]
+            "attendees": [1]
         }
     },
     {
@@ -20,7 +20,7 @@
             "date": "2021-11-05",
             "time": "20:00",
             "organizer": 1,
-            "attending": [1]
+            "attendees": [1]
         }
     },
     {
@@ -32,7 +32,7 @@
             "date": "2021-11-05",
             "time": "20:00",
             "organizer": 1,
-            "attending": [1]
+            "attendees": [1]
         }
     }
 ]
