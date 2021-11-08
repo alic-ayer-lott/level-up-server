@@ -14,10 +14,18 @@ from levelupapi.views.game import GameSerializer
 
 class EventView(ViewSet):
     def list(self, request):
+        gamer = Gamer.objects.get(user=request.auth.user)
         events = Event.objects.all()
-        event_type = self.request.query_params.get('type', None)
-        if event_type is not None:
-            events = events.filter(event_type__id=event_type)
+        # Set the `joined` property on every event
+        for event in events:
+            # Check to see if the gamer is in the attendees list on the event
+            event.joined = gamer in event.attendees.all()
+
+        # Support filtering events by game
+        game = self.request.query_params.get('gameId', None)
+        if game is not None:
+            events = events.filter(game__id=type)
+
         serializer = EventSerializer(
             events, many=True, context={'request': request})
         return Response(serializer.data)
@@ -140,7 +148,8 @@ class EventGameSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     organizer = GamerSerializer()
     game = EventGameSerializer()
+    joined = serializers.BooleanField(required=False)
     class Meta:
         model = Event
-        fields = ('id', 'game', 'description', 'date', 'time', 'organizer')
+        fields = ('id', 'game', 'description', 'date', 'time', 'organizer', 'attendees', 'joined')
         depth = 1
