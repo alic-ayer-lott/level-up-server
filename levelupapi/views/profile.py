@@ -17,12 +17,18 @@ def user_profile(request):
         Response -- JSON representation of user info and events
     """
     gamer = Gamer.objects.get(user=request.auth.user)
+    events = Event.objects.all()
     
-    # TODO: Use the django orm to filter events if the gamer is attending the event
-    # attending = 
+    # Use the django orm to filter events if the gamer is attending the event
+    # attending =
 
-    # TODO: Use the orm to filter events if the gamer is hosting the event
+    attending = events.filter(attendees=gamer)
+
+    # Can also use : attending = gamer.attending.all()
+
+    # Use the orm to filter events if the gamer is hosting the event
     # hosting =
+    hosting = events.filter(organizer=gamer)
 
     attending = EventSerializer(
         attending, many=True, context={'request': request})
