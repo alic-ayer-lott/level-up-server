@@ -29,6 +29,7 @@ def user_profile(request):
     # Use the orm to filter events if the gamer is hosting the event
     # hosting =
     hosting = events.filter(organizer=gamer)
+    # hosting = gamer.event_set is another option
 
     attending = EventSerializer(
         attending, many=True, context={'request': request})
@@ -36,7 +37,7 @@ def user_profile(request):
         hosting, many=True, context={'request': request})
     gamer = GamerSerializer(
         gamer, many=False, context={'request': request})
-
+    # Many is true because it is a list
     # Manually construct the JSON structure you want in the response
     profile = {
         "gamer": gamer.data,
