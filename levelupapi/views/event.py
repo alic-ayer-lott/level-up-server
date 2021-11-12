@@ -115,15 +115,13 @@ class EventView(ViewSet):
     def update(self, request, pk=None):
 
         organizer = Gamer.objects.get(user=request.auth.user)
-
-
         event = Event.objects.get(pk=pk)
-        event.game=Game.objects.get(pk=request.data["gameId"]),
-        event.description=request.data["description"],
-        event.date=request.data["date"],
-        event.time=request.data["time"],
-        event.organizer=organizer,
-        event.attendees=request.data["attendees"]
+        
+        event.game = Game.objects.get(pk=request.data['gameId'])
+        event.description=request.data["description"]
+        event.date=request.data["date"]
+        event.time=request.data["time"]
+        event.organizer=organizer
 
         event.save()
 
